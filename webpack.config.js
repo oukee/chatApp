@@ -1,8 +1,8 @@
 var config = {
-   entry: '/Users/Oukee/programming/reactApp/main.js',
+   entry: '/Users/Oukee/programming/reactApp/src/js/main.js',
   
    output: {
-      path:'/Users/Oukee/programming/reactApp/',
+      path:'/Users/Oukee/programming/reactApp/src',
       filename: 'index.js',
    },
   
