@@ -1,5 +1,5 @@
 var config = {
-   entry: '/Users/Oukee/programming/reactApp/src/js/main.js',
+   entry: '/Users/Oukee/programming/reactApp/src/js/main.jsx',
   
    output: {
       path:'/Users/Oukee/programming/reactApp/src',
@@ -8,7 +8,8 @@ var config = {
   
    devServer: {
       inline: true,
-      port: 8080
+      port: 8080,
+      historyApiFallback: true
    },
   
    module: {

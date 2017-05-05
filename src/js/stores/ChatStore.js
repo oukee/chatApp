@@ -1,25 +1,15 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
+import ChatDispatcher from '../dispatcher/ChatDispatcher';
+import ChatConstant from '../constants/ChatConstant'
 
 class ChatStore extends EventEmitter {
   constructor () {
     super();
-    this.chats = [
-      {
-        id: 1,
-        username: "Jinouk",
-        text: "Hey there!"
-      },
-      {
-        id: 2,
-        username: "Jinwoo",
-        text: "Yo"
-      }
-    ];
+    this.chats = [];
   }
 
-  createChat(bundle) {
+  registerChat(bundle) {
     this.chats.push({
-      id: bundle.id,
       username: bundle.username,
       text: bundle.text
     });
@@ -33,5 +23,17 @@ class ChatStore extends EventEmitter {
 }
 
 const chatStore = new ChatStore;
+
+ChatDispatcher.register(function(payload){
+  switch(payload.chatAction){
+    case ChatConstant.REGISTER_CHAT: 
+      chatStore.registerChat(payload.data);
+      break;
+    default:
+      break;
+  }
+});
+
+
 window.chatStore = chatStore;
 export default chatStore;

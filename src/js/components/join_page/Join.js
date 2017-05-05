@@ -24,10 +24,9 @@ export default class Join extends React.Component {
         <button>
           <Link to={{
             pathname: "/chatroom",
-            state: {username: this.state.username}}}>
+            state: { username: this.state.username }}}>
             Enter Chat!
           </Link>
-          
         </button>
       </div> 
     );
