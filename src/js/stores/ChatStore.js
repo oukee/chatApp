@@ -13,8 +13,18 @@ class ChatStore extends EventEmitter {
       username: bundle.username,
       text: bundle.text
     });
+  }
 
-    this.emit("change");
+  emitChange() {
+    this.emit('change');
+  }
+
+  addRegisterChatListener(callback) {
+    this.on('change', callback);
+  }
+
+  removeRegisterChatListener(callback) {
+    this.removeListener('change', callback);
   }
 
   getAll() {
@@ -28,6 +38,7 @@ ChatDispatcher.register(function(payload){
   switch(payload.chatAction){
     case ChatConstant.REGISTER_CHAT: 
       chatStore.registerChat(payload.data);
+      chatStore.emitChange();
       break;
     default:
       break;

@@ -7,35 +7,31 @@ import ChatAction from "../../actions/ChatAction"
 export default class Chatroom extends React.Component {
   constructor() {
     super();
+
+
     this.state = {
       chats: ChatStore.getAll(),
+      myChat: ""
     }
-    this.myChat = "asdfasdf"; 
 
     // Functions binding
+    this.addMyChatToChatRoom = this.addMyChatToChatRoom.bind(this);
     this.updateChatroom = this.updateChatroom.bind(this);
-    this.setMyChat = this.setMyChat.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   // Mounting 
   componentWillMount() {
-    ChatStore.on("change", this.updateChatroom);
+    ChatStore.addRegisterChatListener(this.updateChatroom);
   }
 
   // Unmouting
   componentWillUnMount() {
-
+    ChatStore.removeRegisterChatListener(this.updateChatroom);
   }
 
-  // 
-  addMyChatToChatRoom() {
-
-  }
-
-  // 
-  setMyChat(e) {
-    this.myChat = e.target.value;
-    console.log(this.myChat);
+  handleChange(e) {
+    this.setState({ myChat: e.target.value });
   }
 
   // 
@@ -43,12 +39,15 @@ export default class Chatroom extends React.Component {
     this.setState({ chats: ChatStore.getAll() });
   }
 
-  addMyChatToChatRoom() {
+  addMyChatToChatRoom(username) {
+
+    let myChat = this.state.myChat;
+
     ChatAction.registerChat({
-      username: "Jinouk",
-      text: "myChat"
+      username: username,
+      text: myChat
     });
-  }
+  } 
 
   render() {
 
@@ -57,15 +56,14 @@ export default class Chatroom extends React.Component {
       return <Chat key={ index } { ...chat }/>;//React.createElement("Chat", { key: chat.id }, { ...chat });
       
     });
-    console.log(this.props);
     const { username } = this.props.location.state;
 
     return (
       <div className="chat-room">
         <div > Welcome to Chatroom! { username }</div>
         <div>{ ChatComponents }</div>
-        <input type="text" onChange={ this.setMyChat }/>
-        <div className="btn btn-warning" onClick={ this.addMyChatToChatRoom }>Send</div>
+        <input type="text" value={ this.state.myChat } onChange = { this.handleChange } />
+        <div className="btn btn-warning" onClick={ () => this.addMyChatToChatRoom(username) }>Send</div>
       </div>
     );
   }
